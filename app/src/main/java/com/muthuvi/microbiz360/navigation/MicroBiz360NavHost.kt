@@ -12,9 +12,9 @@ fun MicroBiz360NavHost() {
 
     NavHost(
         navController = navController,
-        startDestination = "dashboard"
+        startDestination = Screen.Dashboard.route
     ) {
-        composable("dashboard") {
+        composable(Screen.Dashboard.route) {
             Text(text = "MicroBiz360 Dashboard")
         }
     }
