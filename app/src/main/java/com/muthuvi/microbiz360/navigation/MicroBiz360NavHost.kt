@@ -1,6 +1,6 @@
 package com.muthuvi.microbiz360.navigation
 
-import androidx.compose.material3.Text
+import com.muthuvi.microbiz360.ui.screens.dashboard.DashboardScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,7 +15,7 @@ fun MicroBiz360NavHost() {
         startDestination = Screen.Dashboard.route
     ) {
         composable(Screen.Dashboard.route) {
-            Text(text = "MicroBiz360 Dashboard")
+            DashboardScreen()
         }
     }
 }
