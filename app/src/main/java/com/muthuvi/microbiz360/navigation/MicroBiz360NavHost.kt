@@ -31,6 +31,10 @@ fun MicroBiz360NavHost() {
         mutableStateOf(0.0)
     }
 
+    var showPaymentSuccess by remember {
+        mutableStateOf(false)
+    }
+
     NavHost(
         navController = navController,
         startDestination = Screen.Login.route
@@ -58,7 +62,9 @@ fun MicroBiz360NavHost() {
             DashboardScreen(
                 todaySales = todaySales,
                 todayRevenue = todayRevenue,
+                showPaymentSuccess = showPaymentSuccess,
                 onProductsClick = {
+                    showPaymentSuccess = false
                     navController.navigate(Screen.Products.route)
                 }
             )
@@ -102,6 +108,7 @@ fun MicroBiz360NavHost() {
 
                     todaySales += 1
                     todayRevenue += pendingSaleAmount
+                    showPaymentSuccess = true
 
                     pendingSaleAmount = 0.0
 

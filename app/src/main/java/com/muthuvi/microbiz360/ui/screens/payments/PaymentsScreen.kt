@@ -87,24 +87,47 @@ fun PaymentsScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
-                OutlinedButton(
-                    onClick = {
-                        selectedMethod = "Cash"
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text("Cash")
+                if (selectedMethod == "Cash") {
+                    Button(
+                        onClick = {
+                            selectedMethod = "Cash"
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Cash")
+                    }
+                } else {
+                    OutlinedButton(
+                        onClick = {
+                            selectedMethod = "Cash"
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Cash")
+                    }
                 }
 
-                OutlinedButton(
-                    onClick = {
-                        selectedMethod = "M-Pesa"
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text("M-Pesa")
+                if (selectedMethod == "M-Pesa") {
+                    Button(
+                        onClick = {
+                            selectedMethod = "M-Pesa"
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("M-Pesa")
+                    }
+                } else {
+                    OutlinedButton(
+                        onClick = {
+                            selectedMethod = "M-Pesa"
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("M-Pesa")
+                    }
                 }
             }
+
 
             Card(
                 modifier = Modifier.fillMaxWidth()

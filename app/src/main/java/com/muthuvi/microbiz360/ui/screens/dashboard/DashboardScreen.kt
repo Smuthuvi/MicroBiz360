@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 fun DashboardScreen(
     todaySales: Int,
     todayRevenue: Double,
+    showPaymentSuccess: Boolean,
     onProductsClick: () -> Unit
 ) {
 
@@ -93,6 +94,20 @@ fun DashboardScreen(
                             fontWeight = FontWeight.Bold
                         )
                     }
+                }
+            }
+
+            if (showPaymentSuccess) {
+
+                Card(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Payment completed successfully",
+                        modifier = Modifier.padding(16.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             }
 
