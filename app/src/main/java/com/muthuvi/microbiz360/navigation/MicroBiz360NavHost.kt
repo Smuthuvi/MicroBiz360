@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.muthuvi.microbiz360.ui.screens.auth.LoginScreen
 import com.muthuvi.microbiz360.ui.screens.dashboard.DashboardScreen
 import com.muthuvi.microbiz360.ui.screens.payments.PaymentsScreen
 import com.muthuvi.microbiz360.ui.screens.products.ProductsScreen
@@ -32,8 +33,25 @@ fun MicroBiz360NavHost() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Dashboard.route
+        startDestination = Screen.Login.route
     ) {
+
+        composable(Screen.Login.route) {
+
+            LoginScreen(
+                onLoginSuccess = {
+
+                    navController.navigate(Screen.Dashboard.route) {
+
+                        popUpTo(Screen.Login.route) {
+                            inclusive = true
+                        }
+
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
 
         composable(Screen.Dashboard.route) {
 
