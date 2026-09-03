@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 fun PaymentsScreen(
     amount: Double,
     onBack: () -> Unit,
-    onPaymentCompleted: () -> Unit
+    onPaymentCompleted: (String) -> Unit
 ) {
 
     var selectedMethod by remember {
@@ -161,7 +161,9 @@ fun PaymentsScreen(
             }
 
             Button(
-                onClick = onPaymentCompleted,
+                onClick = {
+                    onPaymentCompleted(selectedMethod)
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Complete Payment")

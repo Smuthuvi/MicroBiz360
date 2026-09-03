@@ -15,13 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+
 
 @Composable
 fun DashboardScreen(
     todaySales: Int,
     todayRevenue: Double,
     showPaymentSuccess: Boolean,
-    onProductsClick: () -> Unit
+    onProductsClick: () -> Unit,
+    onLogout: () -> Unit
 ) {
 
     Scaffold { innerPadding ->
@@ -116,6 +121,16 @@ fun DashboardScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Manage Products")
+            }
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
+
+            OutlinedButton(
+                onClick = onLogout,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Sign Out")
             }
         }
     }

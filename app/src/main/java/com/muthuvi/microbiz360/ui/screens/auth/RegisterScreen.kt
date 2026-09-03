@@ -23,16 +23,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     isLoading: Boolean,
     errorMessage: String?,
-    onSignIn: (String, String) -> Unit,
-    onCreateAccount: () -> Unit
+    onRegister: (String, String) -> Unit,
+    onBackToLogin: () -> Unit
 ) {
 
     var email by remember {
@@ -43,9 +42,18 @@ fun LoginScreen(
         mutableStateOf("")
     }
 
-    val loginEnabled =
+    var confirmPassword by remember {
+        mutableStateOf("")
+    }
+
+    var localError by remember {
+        mutableStateOf<String?>(null)
+    }
+
+    val registerEnabled =
         email.isNotBlank() &&
-                password.isNotBlank() &&
+                password.length >= 6 &&
+                confirmPassword.isNotBlank() &&
                 !isLoading
 
     Column(
@@ -64,7 +72,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Small Business Operating & Management Platform",
+            text = "Create your business account",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -80,7 +88,7 @@ fun LoginScreen(
             ) {
 
                 Text(
-                    text = "Welcome Back",
+                    text = "Create Account",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -88,7 +96,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Sign in to manage your business.",
+                    text = "Register to start managing your business.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
@@ -98,6 +106,7 @@ fun LoginScreen(
                     value = email,
                     onValueChange = {
                         email = it
+                        localError = null
                     },
                     label = {
                         Text("Email")
@@ -116,9 +125,30 @@ fun LoginScreen(
                     value = password,
                     onValueChange = {
                         password = it
+                        localError = null
                     },
                     label = {
                         Text("Password")
+                    },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OutlinedTextField(
+                    value = confirmPassword,
+                    onValueChange = {
+                        confirmPassword = it
+                        localError = null
+                    },
+                    label = {
+                        Text("Confirm Password")
                     },
                     singleLine = true,
                     visualTransformation = PasswordVisualTransformation(),
@@ -129,12 +159,15 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                if (!errorMessage.isNullOrBlank()) {
+                val displayedError =
+                    localError ?: errorMessage
+
+                if (!displayedError.isNullOrBlank()) {
 
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = errorMessage,
+                        text = displayedError,
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -144,19 +177,38 @@ fun LoginScreen(
 
                 Button(
                     onClick = {
-                        onSignIn(
-                            email.trim(),
-                            password
-                        )
+
+                        when {
+
+                            password.length < 6 -> {
+                                localError =
+                                    "Password must contain at least 6 characters."
+                            }
+
+                            password != confirmPassword -> {
+                                localError =
+                                    "Passwords do not match."
+                            }
+
+                            else -> {
+                                localError = null
+
+                                onRegister(
+                                    email.trim(),
+                                    password
+                                )
+                            }
+                        }
                     },
-                    enabled = loginEnabled,
+                    enabled = registerEnabled,
                     modifier = Modifier.fillMaxWidth()
                 ) {
+
                     Text(
                         if (isLoading) {
-                            "Signing In..."
+                            "Creating Account..."
                         } else {
-                            "Sign In"
+                            "Create Account"
                         }
                     )
                 }
@@ -164,20 +216,13 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 OutlinedButton(
-                    onClick = onCreateAccount,
+                    onClick = onBackToLogin,
                     enabled = !isLoading,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Create Account")
+                    Text("Back to Sign In")
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = "Secure • Simple • Business-focused",
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }

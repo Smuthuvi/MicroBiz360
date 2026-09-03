@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SalesScreen(
     onBack: () -> Unit,
-    onProceedToPayment: (Double) -> Unit
+    onProceedToPayment: (Int, Double) -> Unit
 ) {
 
     val productName = "Sugar 1 Kg"
@@ -171,7 +171,7 @@ fun SalesScreen(
 
             Button(
                 onClick = {
-                    onProceedToPayment(total)
+                    onProceedToPayment(quantity, total)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
